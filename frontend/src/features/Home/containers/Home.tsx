@@ -12,6 +12,7 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "aos/dist/aos.css";
 import AOS from "aos";
+import { Link } from "react-router-dom";
 
 export const Home: FC = () => {
   const guestName = getInfoFromLocalStorage("guest") || "";
@@ -21,7 +22,7 @@ export const Home: FC = () => {
 
   useEffect(() => {
     if (!didRun.current) {
-      toast.success(`Hello guest ${guestName} in our site`);
+      toast.success(`Вітаємо ${guestName} на нашому сайті`);
       AOS.init({ duration: 500 });
       didRun.current = true;
     }
@@ -44,7 +45,7 @@ export const Home: FC = () => {
         backgroundImage: `url('/homebackground.jpg')`,
       }}
     >
-      <div className="bg-white bg-opacity-90 w-4/5 p-8 rounded-lg shadow-2xl my-10">
+      <div className="bg-blue-50 bg-opacity-90 w-4/5 p-8 rounded-lg shadow-2xl my-10">
         <Carousel
           autoPlay
           infiniteLoop
@@ -81,12 +82,12 @@ export const Home: FC = () => {
           <p className="text-gray-600 mb-6">
             Переглянь події, що вже створені іншими користувачами та приєднуйся!
           </p>
-          <a
-            href="/events"
-            className="px-6 py-3 bg-gradient-to-r from-orange-400 to-pink-500 text-white rounded-full font-semibold hover:scale-105 transition-transform"
+          <Link
+            to="/events"
+            className="px-6 py-3 rounded-md bg-gradient-to-r from-[#8385F9] to-[#2B2EFF] text-white hover:opacity-90 transition"
           >
             Переглянути івенти
-          </a>
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -142,9 +143,7 @@ export const Home: FC = () => {
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
             <FeatureCard
-              icon={
-                <FaCalendarPlus size={40} className="text-orange-500 mb-4" />
-              }
+              icon={<FaCalendarPlus size={40} className="text-blue-500 mb-4" />}
               title="Легке створення івентів"
               description="Створюй заходи за кілька хвилин з детальним налаштуванням формату, локації та учасників."
             />
@@ -163,6 +162,64 @@ export const Home: FC = () => {
               title="Рейтинги та відгуки"
               description="Отримуй оцінки та відгуки на свої заходи для покращення майбутніх івентів."
             />
+          </div>
+        </div>
+        <div className="mt-20" data-aos="fade-up">
+          <h2 className="text-3xl font-bold text-center text-gray-800 mb-4">
+            Проведені івенти та відгуки
+          </h2>
+          <p className="text-center text-gray-600 mb-10 max-w-xl mx-auto">
+            Ми вже організували десятки заходів. Ось деякі з них, які
+            запам'ятались найбільше нашим учасникам.
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+            {[
+              {
+                title: "Весняний Фестиваль Вуличної Їжі",
+                image:
+                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSfDmNm9MgUSbkExfxGymtOidP2NAeIGdnfA&s",
+                review:
+                  "Неймовірна атмосфера, смачна їжа та крута музика! Чекаємо наступного року!",
+                author: "Ірина, Київ",
+              },
+              {
+                title: "Осінній Хакатон Стартапів",
+                image:
+                  "https://lh5.googleusercontent.com/proxy/ZfK_0iKjMvLIRfJi2u4CKWHT2B0kO80QwXTAXyAJKr8xkF1gJlZKQl7mol2dvXuMBxX9c1m2Ky1KeP99jNE9Ht4Mt_5H5NhcAcg_QKcYSqURCBY",
+                review:
+                  "Класна організація! Знайшов партнерів для свого стартапу, дякую платформі!",
+                author: "Олексій, Львів",
+              },
+              {
+                title: "Літній Літературний Пікнік",
+                image:
+                  "https://zakarpattya.net.ua/postimages/pub/2017/07/3-98.jpg",
+                review:
+                  "Затишна атмосфера серед природи, вірші та живі виступи – магія!",
+                author: "Марія, Одеса",
+              },
+            ].map(({ title, image, review, author }, idx) => (
+              <div
+                key={idx}
+                className="bg-white rounded-2xl border border-gray-200 shadow-md hover:shadow-xl transition duration-300 flex flex-col"
+              >
+                <img
+                  src={image}
+                  alt={title}
+                  className="h-48 w-full object-cover rounded-t-2xl"
+                />
+                <div className="p-5 flex flex-col justify-between flex-1">
+                  <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                    {title}
+                  </h3>
+                  <p className="text-gray-600 italic mb-4 leading-relaxed">
+                    “{review}”
+                  </p>
+                  <p className="text-sm text-gray-500 text-right">— {author}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -196,7 +253,7 @@ const FeatureCard: FC<{
   description: string;
 }> = ({ icon, title, description }) => (
   <div
-    className="flex flex-col items-center text-center p-6 bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow"
+    className="flex flex-col items-center text-center p-6 bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow shadow-lg"
     data-aos="zoom-in"
   >
     {icon}

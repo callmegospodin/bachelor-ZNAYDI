@@ -8,7 +8,6 @@ export default defineConfig(({ mode }) => {
   return {
     define: {
       "process.env.SERVER_URL": JSON.stringify(env.APP_URL),
-      "process.env.GOOGLE_MAP_API_KEY": JSON.stringify(env.GOOGLE_MAP_API_KEY),
     },
     plugins: [react(), tailwindcss()],
   };

@@ -56,7 +56,7 @@ export const Calendar: FC = () => {
 
   return (
     <motion.div
-      className="p-6 min-h-screen bg-white text-gray-800"
+      className="p-6 min-h-screen bg-gradient-to-b from-blue-50 to-white text-gray-800"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
@@ -64,7 +64,7 @@ export const Calendar: FC = () => {
       <div className="flex justify-between items-center mb-6">
         <button
           onClick={handlePrevMonth}
-          className="px-3 py-1 bg-orange-400 text-white rounded hover:bg-orange-500"
+          className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-500"
         >
           Попередній Місяць
         </button>
@@ -73,7 +73,7 @@ export const Calendar: FC = () => {
         </h2>
         <button
           onClick={handleNextMonth}
-          className="px-3 py-1 bg-orange-400 text-white rounded hover:bg-orange-500"
+          className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-500"
         >
           Наступний Місяць
         </button>

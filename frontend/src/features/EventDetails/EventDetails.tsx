@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { events } from "../Events/constants/constants";
 import { GoogleMap, Marker, StreetViewPanorama } from "@react-google-maps/api";
+import { FaStar } from "react-icons/fa";
 
 export const EventDetails: FC = () => {
   const lat = 50.4501;
@@ -14,6 +15,8 @@ export const EventDetails: FC = () => {
   const event = events.find((e) => e.id === id);
   const [isEditing, setIsEditing] = useState(false);
   const [editedEvent, setEditedEvent] = useState({ ...event });
+  const [rating, setRating] = useState(event?.rating || 0);
+  const [hover, setHover] = useState<number | null>(null);
 
   const [messages, setMessages] = useState<any[]>([]);
   const [newMessage, setNewMessage] = useState("");
@@ -61,21 +64,8 @@ export const EventDetails: FC = () => {
     };
 
     try {
-      // const response = await fetch("/api/messages", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(messageData),
-      // });
-
-      // if (response.ok) {
-      //const savedMessage = await response.json();
-      setMessages((prev) => [...prev, messageData]); //savedMessage
+      setMessages((prev) => [...prev, messageData]);
       setNewMessage("");
-      // } else {
-      //   console.error("Помилка надсилання повідомлення");
-      // }
     } catch (err) {
       console.error("Помилка:", err);
     }
@@ -83,7 +73,7 @@ export const EventDetails: FC = () => {
 
   return (
     <motion.div
-      className="p-8 flex flex-col gap-8 min-h-screen bg-gradient-to-b from-orange-50 to-white"
+      className="p-8 flex flex-col gap-8 min-h-screen bg-gradient-to-b from-blue-50 to-white"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -91,7 +81,7 @@ export const EventDetails: FC = () => {
       <div className="flex justify-between items-center">
         <button
           onClick={() => navigate(-1)}
-          className="px-6 py-2 w-fit bg-gradient-to-r from-orange-400 to-pink-500 hover:opacity-90 text-white rounded-xl shadow-md transition"
+          className="px-6 py-2 w-fit bg-gradient-to-r from-[#8385F9] to-[#2B2EFF] hover:opacity-90 text-white rounded-xl shadow-md transition"
         >
           ← Назад
         </button>
@@ -139,13 +129,12 @@ export const EventDetails: FC = () => {
               className="relative w-30 h-30 rounded-full overflow-hidden cursor-pointer group"
             >
               <img
-                src="https://randomuser.me/api/portraits/men/32.jpg"
+                src="/user_photo.jpg"
                 alt="Organizer avatar"
                 className="w-full h-full object-cover transform transition-transform duration-300 group-hover:scale-125"
               />
-
               <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <span className="text-white text-sm font-medium">
+                <span className="text-white text-sm font-medium pl-5">
                   Переглянути профіль
                 </span>
               </div>
@@ -266,9 +255,27 @@ export const EventDetails: FC = () => {
                   event.participants
                 )}
               </p>
-              <p>
-                <span className="font-semibold">Рейтинг:</span> ⭐{" "}
-                {event.rating} / 5
+              <p className="flex items-center gap-2">
+                <span className="font-semibold">Рейтинг:</span>
+                {[...Array(5)].map((_, i) => {
+                  const starValue = i + 1;
+                  return (
+                    <button
+                      key={i}
+                      onClick={() => setRating(starValue)}
+                      onMouseEnter={() => setHover(starValue)}
+                      onMouseLeave={() => setHover(null)}
+                      type="button"
+                    >
+                      <FaStar
+                        color={
+                          starValue <= (hover ?? rating) ? "#2B2EFF" : "#d1d5db"
+                        }
+                        className="text-lg transition-colors"
+                      />
+                    </button>
+                  );
+                })}
               </p>
             </div>
           </div>
@@ -282,7 +289,7 @@ export const EventDetails: FC = () => {
             </button>
           )}
 
-          <div className="w-full h-[400px] mt-8 rounded-xl overflow-hidden border-2 border-orange-300 shadow-lg">
+          <div className="w-full h-[400px] mt-8 rounded-xl overflow-hidden border-2 border-blue-300 shadow-lg">
             <GoogleMap
               mapContainerStyle={{ width: "100%", height: "100%" }}
               center={{ lat, lng }}
@@ -298,6 +305,7 @@ export const EventDetails: FC = () => {
             </GoogleMap>
           </div>
         </div>
+
         <div className="mt-12 p-6 bg-white rounded-2xl shadow-xl">
           <h2 className="text-2xl font-semibold text-gray-800 mb-4">
             💬 Коментарі
@@ -310,12 +318,12 @@ export const EventDetails: FC = () => {
                 className="p-3 rounded-md bg-gray-100 shadow-sm"
               >
                 <p className="text-sm text-gray-600">
-                  <span className="font-semibold">👤 Користувач:</span>{" "}
+                  <span className="font-semibold">👤 Користувач Олег:</span>{" "}
                   {msg.owner_id}
                 </p>
                 <p className="text-gray-800 mt-1">{msg.text}</p>
                 <p className="text-xs text-gray-400 text-right">
-                  {new Date(msg.created_at).toLocaleString()}
+                  {new Date().toLocaleString()}
                 </p>
               </div>
             ))}
@@ -331,7 +339,7 @@ export const EventDetails: FC = () => {
             />
             <button
               onClick={handleSendMessage}
-              className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg"
+              className="bg-gradient-to-r from-[#8385F9] to-[#2B2EFF] hover:opacity-90 text-white rounded-xl shadow-md transition px-4 py-2 rounded-lg"
             >
               Надіслати
             </button>

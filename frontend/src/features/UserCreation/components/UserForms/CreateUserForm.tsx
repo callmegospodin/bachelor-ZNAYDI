@@ -85,7 +85,9 @@ export const CreateUserForm: FC<CreateUserFormProps> = ({ switchForm }) => {
       <UserFormHeader />
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <label className="block text-gray-700 text-sm font-bold">Email</label>
+        <label className="block text-gray-700 text-sm font-bold">
+          Електронна адреса
+        </label>
         <input
           {...register("email", {
             required: true,
@@ -94,22 +96,21 @@ export const CreateUserForm: FC<CreateUserFormProps> = ({ switchForm }) => {
           })}
           className="my-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           type="text"
-          placeholder="Email"
+          placeholder="Електронна адреса"
         />
         {errors.email && (
           <div className="-mt-2 text-red-500 text-sm">
             <span>
-              {errors.email.type === "required" && "This field is required"}
+              {errors.email.type === "required" &&
+                "Це поле обов'язкове для заповнення"}
               {errors.email.type === "maxLength" && "Max length 96 symbols"}
               {errors.email.type === "pattern" &&
-                "Should be in email format 'someEmail@gmail.com'"}
+                "Електронна адреса повина бути у форматі: 'someEmail@gmail.com'"}
             </span>
           </div>
         )}
 
-        <label className="block text-gray-700 text-sm font-bold">
-          First Name
-        </label>
+        <label className="block text-gray-700 text-sm font-bold">Імʼя</label>
         <input
           {...register("firstName", {
             required: true,
@@ -117,19 +118,20 @@ export const CreateUserForm: FC<CreateUserFormProps> = ({ switchForm }) => {
           })}
           className="my-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           type="text"
-          placeholder="First Name"
+          placeholder="Ім'я"
         />
         {errors.firstName && (
           <div className="-mt-2 text-red-500 text-sm">
             <span>
-              {errors.firstName.type === "required" && "This field is required"}
+              {errors.firstName.type === "required" &&
+                "Це поле обов'язкове для заповнення"}
               {errors.firstName.type === "maxLength" && "Max length 96 symbols"}
             </span>
           </div>
         )}
 
         <label className="block text-gray-700 text-sm font-bold">
-          Last Name
+          Прізвище
         </label>
         <input
           {...register("lastName", {
@@ -138,12 +140,13 @@ export const CreateUserForm: FC<CreateUserFormProps> = ({ switchForm }) => {
           })}
           className="my-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           type="text"
-          placeholder="Last Name"
+          placeholder="Прізвище"
         />
         {errors.lastName && (
           <div className="-mt-2 text-red-500 text-sm">
             <span>
-              {errors.lastName.type === "required" && "This field is required"}
+              {errors.lastName.type === "required" &&
+                "Це поле обов'язкове для заповнення"}
               {errors.lastName.type === "maxLength" && "Max length 96 symbols"}
             </span>
           </div>
@@ -151,7 +154,7 @@ export const CreateUserForm: FC<CreateUserFormProps> = ({ switchForm }) => {
 
         <div className="relative container">
           <label className="block text-gray-700 text-sm font-bold">
-            Password
+            Пароль
           </label>
           <input
             type={isPasswordVisible ? "text" : "password"}
@@ -161,10 +164,10 @@ export const CreateUserForm: FC<CreateUserFormProps> = ({ switchForm }) => {
               maxLength: 20,
             })}
             className="my-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            placeholder="Password"
+            placeholder="Пароль"
           />
           <button
-            className="mt-3 absolute inset-y-0 right-0 flex items-center px-4 text-gray-600"
+            className="mt-5 absolute inset-y-0 right-0 flex items-center px-4 text-gray-600"
             onClick={(e) => togglePasswordVisibility(e)}
           >
             {isPasswordVisible ? (
@@ -177,10 +180,11 @@ export const CreateUserForm: FC<CreateUserFormProps> = ({ switchForm }) => {
             <div className="-mt-2 text-red-500 text-sm">
               <span>
                 {errors.password.type === "required" &&
-                  "This field is required"}
-                {errors.password.type === "minLength" && "Max length 5 symbols"}
+                  "Це поле обов'язкове для заповнення"}
+                {errors.password.type === "minLength" &&
+                  "Мінімальна довжина 5 символів"}
                 {errors.password.type === "maxLength" &&
-                  "Max length 20 symbols"}
+                  "Максимальна довжина 20 символів"}
               </span>
             </div>
           )}
@@ -190,21 +194,21 @@ export const CreateUserForm: FC<CreateUserFormProps> = ({ switchForm }) => {
           <div className="w-full">
             <Button
               type="submit"
-              children="Create Account"
+              children="Зареєструватися"
               btnStyle="secondary"
             />
           </div>
         </div>
 
         <div className="flex items-center justify-between pb-6">
-          <p className="mb-0 mr-2">Have an account?</p>
+          <p className="mb-0 mr-2">Вже є акаунт?</p>
           <div>
             <button
               onClick={handleRedirectToEventList}
               type="button"
               className="inline-block rounded border-2 border-danger px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-danger transition duration-150 ease-in-out hover:border-danger-600 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-danger-600 focus:border-danger-600 focus:text-danger-600 focus:outline-none focus:ring-0 active:border-danger-700 active:text-danger-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
             >
-              Event List
+              Список івентів
             </button>
           </div>
           <div>
@@ -213,7 +217,7 @@ export const CreateUserForm: FC<CreateUserFormProps> = ({ switchForm }) => {
               className="inline-block rounded border-2 border-danger px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-danger transition duration-150 ease-in-out hover:border-danger-600 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-danger-600 focus:border-danger-600 focus:text-danger-600 focus:outline-none focus:ring-0 active:border-danger-700 active:text-danger-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
               onClick={switchForm}
             >
-              Log in
+              Увійти
             </button>
           </div>
         </div>

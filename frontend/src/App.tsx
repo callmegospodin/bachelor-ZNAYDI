@@ -10,6 +10,8 @@ import { CreateEvents } from "./features/CreateEvents/CreateEvents";
 import { Profile } from "./features/Profile/containers/Profile/Profile";
 import { About } from "./features/About/About";
 import { Calendar } from "./features/Calendar/Calendar";
+import { Analytics } from "./features/Analytics/Analytics";
+import { ProtectedRoute } from "./router/ProtectedRoute";
 
 function App() {
   return (
@@ -25,14 +27,15 @@ function App() {
             <Route path="/profile/:id" element={<Profile />} />
             <Route path="/about" element={<About />} />
             <Route path="/calendar" element={<Calendar />} />
-            {/* <Route
-            path="/about"
-            element={
-              <ProtectedRoute>
-                <About />
-              </ProtectedRoute>
-            }
-          /> */}
+            {/* <Route path="/analytics" element={<Analytics />} /> */}
+            <Route
+              path="/analytics"
+              element={
+                <ProtectedRoute>
+                  <Analytics />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </GoogleMapsProvider>
       </AppLayout>

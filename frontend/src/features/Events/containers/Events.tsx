@@ -67,8 +67,8 @@ export const Events: FC = () => {
   const totalPages = Math.ceil(filteredEvents.length / pageSize);
 
   return (
-    <div>
-      <div className="px-6 mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div className="bg-gradient-to-b from-blue-50 to-white">
+      <div className="px-6 pt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold text-gray-800">Сторінка івентів</h1>
           <p className="text-gray-600 mt-1 max-w-xl">
@@ -77,7 +77,7 @@ export const Events: FC = () => {
           </p>
         </div>
         <button
-          className="px-4 py-2 rounded-md bg-gradient-to-r from-orange-400 to-pink-500 text-white hover:opacity-90 transition"
+          className="px-4 py-2 rounded-md bg-gradient-to-r from-[#8385F9] to-[#2B2EFF] text-white hover:opacity-90 transition"
           onClick={() => navigate("/create-events")}
         >
           Створити івент
@@ -91,7 +91,7 @@ export const Events: FC = () => {
               placeholder="Пошук івенту..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full p-3 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+              className="w-full p-3 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
           </div>
 
@@ -111,7 +111,7 @@ export const Events: FC = () => {
               onClick={() =>
                 setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"))
               }
-              className="w-full mt-3 p-3 rounded-lg bg-gradient-to-r from-orange-400 to-pink-500 text-white font-semibold shadow hover:scale-105 transition-transform"
+              className="w-full mt-3 p-3 rounded-lg bg-gradient-to-r from-[#8385F9] to-[#2B2EFF] text-white hover:opacity-90 transition"
             >
               {sortOrder === "asc" ? "За зростанням" : "За спаданням"}
             </button>
@@ -127,10 +127,10 @@ export const Events: FC = () => {
               defaultValue={[0, 5000]}
               value={priceRange}
               onChange={(value) => setPriceRange(value as [number, number])}
-              trackStyle={[{ backgroundColor: "#fb923c" }]}
+              trackStyle={[{ backgroundColor: "#2B2EFF" }]}
               handleStyle={[
-                { backgroundColor: "#fb923c", borderColor: "#fb923c" },
-                { backgroundColor: "#fb923c", borderColor: "#fb923c" },
+                { backgroundColor: "#2B2EFF", borderColor: "#8385F9" },
+                { backgroundColor: "#2B2EFF", borderColor: "#8385F9" },
               ]}
             />
             <div className="flex justify-between text-sm mt-2 text-gray-600">
@@ -144,8 +144,8 @@ export const Events: FC = () => {
             <ul className="space-y-2">
               <li>
                 <button
-                  className={`w-full text-left px-4 py-2 rounded-md transition hover:bg-orange-100 ${
-                    selectedCategory === null ? "bg-orange-200" : ""
+                  className={`w-full text-left px-4 py-2 rounded-md bg-gradient-to-r from-[#8385F9] to-[#2B2EFF] text-white hover:opacity-90 transition ${
+                    selectedCategory === null ? "bg-blue-200" : ""
                   }`}
                   onClick={() => setSelectedCategory(null)}
                 >
@@ -155,8 +155,8 @@ export const Events: FC = () => {
               {eventCategories.map((cat) => (
                 <li key={cat.id}>
                   <button
-                    className={`w-full text-left px-4 py-2 rounded-md transition hover:bg-orange-100 ${
-                      selectedCategory === cat.id ? "bg-orange-200" : ""
+                    className={`w-full text-left px-4 py-2 rounded-md transition hover:bg-blue-100 ${
+                      selectedCategory === cat.id ? "bg-blue-200" : ""
                     }`}
                     onClick={() => setSelectedCategory(cat.id)}
                   >
@@ -202,7 +202,7 @@ export const Events: FC = () => {
                 onClick={() => setCurrentPage(idx + 1)}
                 className={`px-4 py-2 rounded-lg font-semibold ${
                   currentPage === idx + 1
-                    ? "bg-orange-400 text-white"
+                    ? "bg-blue-400 text-white"
                     : "bg-gray-200 hover:bg-gray-300"
                 }`}
               >

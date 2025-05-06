@@ -21,13 +21,13 @@ type User = {
 
 const mockUser: User = {
   id: "uuid-123",
-  email: "test@example.com",
+  email: "oleg@example.com",
   password: "********",
-  first_name: "Іван",
-  last_name: "Петренко",
-  phone: "+380991234567",
+  first_name: "Олег",
+  last_name: "Шевченко",
+  phone: "+380961234567",
   age: 28,
-  photo_url: "https://randomuser.me/api/portraits/men/75.jpg",
+  photo_url: "/user_photo.jpg",
   about: "Привіт! Я розробник з Києва.",
   city: "Київ",
   role_id: "role-uuid",
@@ -61,24 +61,24 @@ export const Profile: FC = () => {
       >
         <motion.div className="flex justify-between items-center mb-8">
           <h2 className="text-4xl font-bold text-gray-800">
-            🎉 Профіль організатора
+            Профіль користувача
           </h2>
           <div className="flex gap-4">
             <button
               onClick={() => setFollowing((prev) => !prev)}
               className={`px-4 py-2 font-semibold rounded-xl shadow transition ${
                 following
-                  ? "bg-gray-300 text-gray-700 hover:bg-gray-400"
-                  : "bg-blue-600 text-white hover:bg-blue-700"
+                  ? "bg-gradient-to-r from-[#8385F9] to-[#2B2EFF] text-white hover:opacity-90 transition"
+                  : "bg-gradient-to-r from-[#8385F9] to-[#2B2EFF] text-white hover:opacity-90 transition"
               }`}
             >
               {following ? "Відписатися" : "Стежити"}
             </button>
             <button
               onClick={() => setEditing((prev) => !prev)}
-              className="px-4 py-2 bg-blue-600 text-white rounded-xl shadow hover:bg-indigo-700 transition"
+              className="px-4 py-2 bg-gradient-to-r from-[#2B2EFF] to-[#8385F9] text-white hover:opacity-90 transition rounded-xl shadow hover:bg-indigo-700 transition"
             >
-              {editing ? "Скасувати" : "Редагувати"}
+              {editing ? "Зберегти" : "Редагувати"}
             </button>
           </div>
         </motion.div>
@@ -170,10 +170,8 @@ export const Profile: FC = () => {
           transition={{ delay: 0.4 }}
         >
           <p>
-            🆔 <strong>ID:</strong> {user.id}
-          </p>
-          <p>
-            🔑 <strong>Role ID:</strong> {user.role_id}
+            🔑 <strong>Role:</strong> Організатор
+            {/* {user.role_id} */}
           </p>
           <Link
             to={`/followers/profile/${user.id}`}
@@ -191,7 +189,7 @@ export const Profile: FC = () => {
           </p>
         </motion.div>
 
-        {editing && (
+        {/* {editing && (
           <motion.div
             className="mt-8 flex justify-end"
             initial={{ opacity: 0 }}
@@ -205,7 +203,7 @@ export const Profile: FC = () => {
               💾 Зберегти
             </button>
           </motion.div>
-        )}
+        )} */}
       </motion.div>
     </div>
   );
@@ -233,7 +231,7 @@ const ProfileField: FC<ProfileFieldProps> = ({
         className="w-full border rounded-lg px-3 py-2 mt-1 shadow"
       />
     ) : (
-      <p className="text-gray-800 mt-1">{value || "—"}</p>
+      <p className="text-gray-900 text-lg font-semibold mt-1">{value || "—"}</p>
     )}
   </div>
 );

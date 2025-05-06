@@ -5,12 +5,12 @@ interface GoogleMapsProviderProps {
   children: ReactNode;
 }
 
-const GOOGLE_MAP_API_KEY = process.env.SERVER_URL || "";
-
 export const GoogleMapsProvider: FC<GoogleMapsProviderProps> = ({
   children,
 }) => {
   return (
-    <LoadScript googleMapsApiKey={GOOGLE_MAP_API_KEY}>{children}</LoadScript>
+    <LoadScript googleMapsApiKey="AIzaSyDsd9Q4iBKbQDYzgjApoo8c5YnZO8fUf38">
+      {children}
+    </LoadScript>
   );
 };
