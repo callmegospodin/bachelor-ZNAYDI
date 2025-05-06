@@ -28,7 +28,17 @@
 ## Project setup
 
 ```bash
+# install dependencies
 $ npm install
+
+# create .env file and fill property according to example .env-example
+$ .env
+
+# run migration to create database schema
+$ npm run migration:run:latest
+
+# run seed to create default static data to use application
+$ npm run seed:run
 ```
 
 ## Compile and run the project

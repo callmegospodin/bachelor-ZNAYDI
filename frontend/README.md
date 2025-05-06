@@ -1,54 +1,35 @@
-# React + TypeScript + Vite
+# 🗺️ React + Vite + Redux + React Hook Form + Google Maps Starter
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a modern boilerplate for building interactive web applications using:
 
-Currently, two official plugins are available:
+- ⚡ **[Vite](https://vitejs.dev/)** — blazing fast frontend tooling
+- ⚛️ **[React](https://react.dev/)** — powerful UI library
+- 🗂 **[Redux Toolkit](https://redux-toolkit.js.org/)** — efficient and scalable state management
+- 📝 **[React Hook Form](https://react-hook-form.com/)** — simple and performant forms
+- 📍 **[Google Maps API](https://developers.google.com/maps)** — maps and location integration
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 🚀 Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Fast development with Vite + HMR
+- Clean component-based structure
+- Efficient state management with Redux Toolkit
+- Type-safe & performant forms with React Hook Form
+- Built-in integration with Google Maps JavaScript API
+- Fully customizable styling (Tailwind, SCSS, or plain CSS support)
+- Environment-based config with `.env`
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+---
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 📦 Project Setup
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+# Install dependencies
+$ npm install
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+# Create and configure environment file
+$ cp .env-example .env
+# Then, open `.env` and set your variables, e.g.:
+# VITE_GOOGLE_MAPS_API_KEY=your_api_key_here
 ```
