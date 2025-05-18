@@ -1,4 +1,4 @@
-# znaydu
+# Znaydi
 
 # Znaydi 🎉
 
