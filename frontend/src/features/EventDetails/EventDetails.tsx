@@ -1,9 +1,11 @@
 import { FC, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { events } from "../Events/constants/constants";
+
 import { GoogleMap, Marker, StreetViewPanorama } from "@react-google-maps/api";
 import { FaStar } from "react-icons/fa";
+import { EventsService } from "../Events/api/event.service";
+import { toast } from "react-toastify";
 
 export const EventDetails: FC = () => {
   const lat = 50.4501;
@@ -12,31 +14,20 @@ export const EventDetails: FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  const event = events.find((e) => e.id === id);
+  const [event, setEvent] = useState<any>({});
   const [isEditing, setIsEditing] = useState(false);
-  const [editedEvent, setEditedEvent] = useState({ ...event });
-  const [rating, setRating] = useState(event?.rating || 0);
+  const [editedEvent, setEditedEvent] = useState({});
+  const [rating, setRating] = useState(0);
   const [hover, setHover] = useState<number | null>(null);
+
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  const [reviewText, setReviewText] = useState("");
+  const [reviewRating, setReviewRating] = useState(0);
+  const [reviewHover, setReviewHover] = useState<number | null>(null);
 
   const [messages, setMessages] = useState<any[]>([]);
   const [newMessage, setNewMessage] = useState("");
-
-  useEffect(() => {
-    if (event?.chatId) {
-      fetch(`/api/messages?chat_id=${event.chatId}`)
-        .then((res) => res.json())
-        .then((data) => setMessages(data))
-        .catch((err) =>
-          console.error("Помилка завантаження повідомлень:", err)
-        );
-    }
-  }, [event?.chatId]);
-
-  useEffect(() => {
-    if (!event) navigate("/");
-  }, [event, navigate]);
-
-  if (!event) return null;
+  const [feedbacks, setFeedbacks] = useState<any[]>([]);
 
   const handleChange = (
     field: keyof typeof editedEvent,
@@ -58,7 +49,7 @@ export const EventDetails: FC = () => {
     if (!newMessage.trim()) return;
 
     const messageData = {
-      chatId: event.chatId,
+      // chatId: event.chatId,
       ownerId: "user-id-placeholder", // замініть на реального користувача
       text: newMessage,
     };
@@ -70,6 +61,80 @@ export const EventDetails: FC = () => {
       console.error("Помилка:", err);
     }
   };
+
+  const handleGetEvent = async () => {
+    try {
+      const response = await EventsService.getOneById(id || "");
+
+      if (response?.message) {
+        toast.error("Виникла проблема із отримання івенту");
+      }
+
+      setEvent(response);
+      setEditedEvent(response);
+      setRating(response?.rating);
+    } catch (err: any) {
+      toast.error(err);
+    }
+  };
+
+  const handleGetFeedbacks = async () => {
+    try {
+      if (event.id) {
+        const response = await EventsService.getAllFeedbacks(event.id);
+
+        if (response?.message) {
+          toast.error("Виникла проблема із отримання фідбеків");
+        }
+
+        setFeedbacks(response);
+
+        console.log(feedbacks);
+      }
+    } catch (err: any) {
+      toast.error(err);
+    }
+  };
+
+  const handleReviewSubmit = async () => {
+    await EventsService.createFeedback({
+      text: reviewText,
+      eventId: event.id,
+    });
+
+    //await handleGetFeedbacks();
+
+    setIsReviewModalOpen(false);
+    setReviewText("");
+    setReviewRating(0);
+  };
+
+  const handleNavigateToPayment = () => {
+    navigate(`/checkout/${event.id}`);
+  };
+
+  useEffect(() => {
+    handleGetEvent();
+  }, []);
+
+  useEffect(() => {
+    handleGetFeedbacks();
+  }, [event]);
+
+  useEffect(() => {
+    if (event?.chatId) {
+      fetch(`/api/messages?chat_id=${event.chatId}`)
+        .then((res) => res.json())
+        .then((data) => setMessages(data))
+        .catch((err) =>
+          console.error("Помилка завантаження повідомлень:", err)
+        );
+    }
+  }, [event?.chatId]);
+
+  useEffect(() => {
+    if (!event) navigate("/");
+  }, [event, navigate]);
 
   return (
     <motion.div
@@ -102,14 +167,20 @@ export const EventDetails: FC = () => {
       </div>
 
       <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
-        <motion.img
-          src={editedEvent.photo_url}
-          alt={editedEvent.name}
-          className="w-full h-[450px] object-cover"
-          initial={{ scale: 1.05 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 0.8 }}
-        />
+        {editedEvent?.photoUrl && (
+          <motion.img
+            src={editedEvent.photoUrl}
+            alt={editedEvent.name}
+            className="w-full h-[450px] object-cover"
+            referrerPolicy="no-referrer"
+            onError={(e) => {
+              e.currentTarget.src = "/default-event.jpg";
+            }}
+            initial={{ scale: 1.05 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.8 }}
+          />
+        )}
 
         <div className="p-8 md:p-10 flex flex-col gap-6">
           {isEditing ? (
@@ -120,7 +191,77 @@ export const EventDetails: FC = () => {
               className="text-4xl font-bold text-gray-800 border-b p-2"
             />
           ) : (
-            <h1 className="text-4xl font-bold text-gray-800">{event.name}</h1>
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <h1 className="text-4xl font-bold text-gray-800">{event.name}</h1>
+
+              <div className="flex gap-3">
+                <button
+                  onClick={() => handleNavigateToPayment()}
+                  className="px-4 py-2 bg-gradient-to-r from-[#8385F9] to-[#2B2EFF] text-white rounded-lg hover:bg-blue-700 transition"
+                >
+                  Купити
+                </button>
+                <button
+                  onClick={() => setIsReviewModalOpen(true)}
+                  className="px-4 py-2 rounded-md border border-[#8385F9] text-[#8385F9] hover:bg-[#8385F9]/10 transition"
+                >
+                  Залишити відгук
+                </button>
+              </div>
+            </div>
+          )}
+
+          {isReviewModalOpen && (
+            <div className="fixed inset-0 z-50 bg-gradient-to-b from-blue-50 to-white bg-opacity-40 flex items-center justify-center">
+              <div className="bg-white rounded-xl p-6 shadow-xl w-full max-w-md">
+                <h2 className="text-xl font-bold text-gray-800 mb-4">
+                  Відгук про "{event.name}"
+                </h2>
+                <textarea
+                  value={reviewText}
+                  onChange={(e) => setReviewText(e.target.value)}
+                  placeholder="Ваш відгук..."
+                  className="w-full h-32 p-3 border rounded-md mb-4"
+                />
+                <div className="flex gap-1 mb-4">
+                  {[...Array(5)].map((_, i) => {
+                    const starValue = i + 1;
+                    return (
+                      <button
+                        key={i}
+                        type="button"
+                        onClick={() => setReviewRating(starValue)}
+                        onMouseEnter={() => setReviewHover(starValue)}
+                        onMouseLeave={() => setReviewHover(null)}
+                      >
+                        <FaStar
+                          className="text-2xl"
+                          color={
+                            starValue <= (reviewHover ?? reviewRating)
+                              ? "#FFD700"
+                              : "#d1d5db"
+                          }
+                        />
+                      </button>
+                    );
+                  })}
+                </div>
+                <div className="flex justify-end gap-2">
+                  <button
+                    onClick={() => setIsReviewModalOpen(false)}
+                    className="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400"
+                  >
+                    Скасувати
+                  </button>
+                  <button
+                    onClick={() => handleReviewSubmit()}
+                    className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700"
+                  >
+                    Надіслати
+                  </button>
+                </div>
+              </div>
+            </div>
           )}
 
           <div className="flex items-center gap-4 mt-4">
@@ -214,14 +355,12 @@ export const EventDetails: FC = () => {
                 {isEditing ? (
                   <input
                     type="datetime-local"
-                    value={new Date(editedEvent.date_time)
-                      .toISOString()
-                      .slice(0, 16)}
-                    onChange={(e) => handleChange("date_time", e.target.value)}
+                    value={editedEvent.dateTime}
+                    onChange={(e) => handleChange("dateTime", e.target.value)}
                     className="border-b ml-2"
                   />
                 ) : (
-                  new Date(event.date_time).toLocaleString()
+                  new Date(event.dateTime).toLocaleString()
                 )}
               </p>
             </div>
@@ -343,6 +482,98 @@ export const EventDetails: FC = () => {
             >
               Надіслати
             </button>
+          </div>
+
+          <div className="mt-12">
+            <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+              🌟 Відгуки користувачів
+            </h2>
+            <div className="space-y-4">
+              {feedbacks.length === 0 ? (
+                <p className="text-gray-500">Наразі відгуків немає.</p>
+              ) : (
+                feedbacks.map((fb) => (
+                  <div
+                    key={fb.id}
+                    className="p-4 border rounded-xl bg-gray-50 shadow-sm"
+                  >
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="font-semibold text-gray-800">
+                        {/* {fb.user} */} UserName
+                      </span>
+                      <p className="text-gray-700">{fb.text}</p>
+                      {/* {[...Array(5)].map((_, i) => (
+                        <FaStar
+                          key={i}
+                          className="text-sm"
+                          color={i < fb.rating ? "#FFD700" : "#d1d5db"}
+                        />
+                      ))} */}
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+          <div className="mt-16 mb-10">
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6">
+              🌟 Рекомендації організаторів
+            </h2>
+
+            <div className="flex flex-wrap justify-center gap-6">
+              {[
+                {
+                  name: "Олег",
+                  surname: "Шевченко",
+                  eventsCount: 12,
+                  avatar: "/avatars1.jpg",
+                },
+                {
+                  name: "Марина",
+                  surname: "Ковальчук",
+                  eventsCount: 9,
+                  avatar: "/avatars2.jpg",
+                },
+                {
+                  name: "Іван",
+                  surname: "Гончар",
+                  eventsCount: 15,
+                  avatar: "/avatars3.jpg",
+                },
+                {
+                  name: "Анна",
+                  surname: "Литвин",
+                  eventsCount: 8,
+                  avatar: "/avatars4.jpg",
+                },
+                {
+                  name: "Дмитро",
+                  surname: "Романюк",
+                  eventsCount: 10,
+                  avatar: "/avatars5.jpg",
+                },
+              ].map((organizer, index) => (
+                <div
+                  key={index}
+                  className="flex flex-col items-center w-32 text-center"
+                >
+                  <div className="w-24 h-24 rounded-full overflow-hidden shadow-lg border-2 border-blue-400">
+                    <img
+                      src={organizer.avatar}
+                      alt={`${organizer.name} ${organizer.surname}`}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <p className="mt-2 font-semibold text-gray-700">
+                    {organizer.name}
+                  </p>
+                  <p className="text-sm text-gray-500">{organizer.surname}</p>
+                  <p className="text-xs text-gray-400">
+                    {organizer.eventsCount} івентів
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

@@ -177,24 +177,21 @@ export const Home: FC = () => {
             {[
               {
                 title: "Весняний Фестиваль Вуличної Їжі",
-                image:
-                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSfDmNm9MgUSbkExfxGymtOidP2NAeIGdnfA&s",
+                image: "/event-example1.jpg",
                 review:
                   "Неймовірна атмосфера, смачна їжа та крута музика! Чекаємо наступного року!",
                 author: "Ірина, Київ",
               },
               {
                 title: "Осінній Хакатон Стартапів",
-                image:
-                  "https://lh5.googleusercontent.com/proxy/ZfK_0iKjMvLIRfJi2u4CKWHT2B0kO80QwXTAXyAJKr8xkF1gJlZKQl7mol2dvXuMBxX9c1m2Ky1KeP99jNE9Ht4Mt_5H5NhcAcg_QKcYSqURCBY",
+                image: "/event-example2.jpg",
                 review:
                   "Класна організація! Знайшов партнерів для свого стартапу, дякую платформі!",
                 author: "Олексій, Львів",
               },
               {
                 title: "Літній Літературний Пікнік",
-                image:
-                  "https://zakarpattya.net.ua/postimages/pub/2017/07/3-98.jpg",
+                image: "/event-example3.jpg",
                 review:
                   "Затишна атмосфера серед природи, вірші та живі виступи – магія!",
                 author: "Марія, Одеса",
@@ -220,6 +217,67 @@ export const Home: FC = () => {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+
+        <div className="mt-24" data-aos="fade-up">
+          <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
+            Обери свій тариф
+          </h2>
+          <p className="text-center text-gray-600 mb-10 max-w-2xl mx-auto">
+            Ми підготували гнучкі тарифи для організаторів подій — від базового
+            старту до повного контролю та аналітики.
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div
+              className="bg-white rounded-xl p-6 border border-gray-200 shadow-md hover:shadow-xl transition"
+              data-aos="zoom-in"
+            >
+              <h3 className="text-xl font-bold text-gray-800 mb-2">Базовий</h3>
+              <p className="text-gray-600 mb-4">Безкоштовно</p>
+              <ul className="text-gray-600 space-y-2 mb-6">
+                <li>✔ Створення подій</li>
+                <li>✔ Участь в івентах</li>
+                <li>✖ Без аналітики</li>
+                <li>✖ Без брендування</li>
+              </ul>
+              <button className="w-full py-2 px-4 bg-gray-300 text-gray-700 rounded-md cursor-not-allowed">
+                Активовано
+              </button>
+            </div>
+            <div
+              className="bg-white rounded-xl p-6 border border-blue-300 shadow-md hover:shadow-xl transition"
+              data-aos="zoom-in"
+            >
+              <h3 className="text-xl font-bold text-gray-800 mb-2">Стандарт</h3>
+              <p className="text-gray-600 mb-4">₴299/міс</p>
+              <ul className="text-gray-600 space-y-2 mb-6">
+                <li>✔ Необмежена кількість подій</li>
+                <li>✔ Аналітика івентів</li>
+                <li>✔ Пріоритетна підтримка</li>
+                <li>✖ Інтеграції зі сторонніми сервісами</li>
+              </ul>
+              <button className="w-full py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
+                Обрати тариф
+              </button>
+            </div>
+            <div
+              className="bg-white rounded-xl p-6 border border-yellow-400 shadow-md hover:shadow-xl transition"
+              data-aos="zoom-in"
+            >
+              <h3 className="text-xl font-bold text-gray-800 mb-2">Pro</h3>
+              <p className="text-gray-600 mb-4">₴599/міс</p>
+              <ul className="text-gray-600 space-y-2 mb-6">
+                <li>✔ Усе з тарифу Стандарт</li>
+                <li>✔ Брендування сторінок</li>
+                <li>✔ Інтеграції: CRM, Email, API</li>
+                <li>✔ Низька комісія на продаж квитків</li>
+              </ul>
+              <button className="w-full py-2 px-4 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 transition">
+                Обрати тариф
+              </button>
+            </div>
           </div>
         </div>
       </div>

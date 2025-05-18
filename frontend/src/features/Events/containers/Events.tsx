@@ -1,9 +1,16 @@
-import { useState, useMemo, FC } from "react";
+import { useState, useMemo, FC, useEffect } from "react";
 import { motion } from "framer-motion";
-import { eventCategories, events, EventType } from "../constants/constants";
+import { EventType } from "../constants/constants";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import { useNavigate } from "react-router-dom";
+import { EventsService } from "../api/event.service";
+import { toast } from "react-toastify";
+import { EventCategoryService } from "../../CreateEvents/api/createEvent.service";
+import {
+  getInfoFromLocalStorage,
+  setInfoToLocalStorage,
+} from "../../../helpers/localstorage.helper";
 
 export const Events: FC = () => {
   const navigate = useNavigate();
@@ -13,14 +20,17 @@ export const Events: FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 5000]);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [listEvents, setListEvents] = useState<any[]>([]);
+  const [listCategories, setListCategories] = useState<any[]>([]);
+  const [favorites, setFavorites] = useState<any[]>([]);
 
   const pageSize = 12;
 
   const filteredEvents = useMemo(() => {
-    let data = events;
+    let data = listEvents;
 
     if (selectedCategory) {
-      data = data.filter((event) => event.category_id === selectedCategory);
+      data = data.filter((event) => event.category?.id === selectedCategory);
     }
 
     if (search) {
@@ -57,7 +67,7 @@ export const Events: FC = () => {
     }
 
     return data;
-  }, [search, sortField, sortOrder, selectedCategory, priceRange]);
+  }, [search, sortField, sortOrder, selectedCategory, priceRange, listEvents]);
 
   const paginatedEvents = useMemo(() => {
     const start = (currentPage - 1) * pageSize;
@@ -65,6 +75,62 @@ export const Events: FC = () => {
   }, [filteredEvents, currentPage]);
 
   const totalPages = Math.ceil(filteredEvents.length / pageSize);
+
+  const handleGetEvents = async () => {
+    try {
+      const response = await EventsService.getAllEvents();
+
+      if (response?.message) {
+        toast.error("Виникла проблема із отримання івентів");
+        return;
+      }
+
+      setListEvents(response);
+    } catch (err: any) {
+      toast.error(err);
+    }
+  };
+
+  const handleGetCategories = async () => {
+    try {
+      const response = await EventCategoryService.getAllCategories();
+
+      if (response?.message) {
+        toast.error("Виникла проблема із отримання івент категорій");
+        return;
+      }
+
+      setListCategories(response);
+    } catch (err: any) {
+      toast.error(err);
+    }
+  };
+
+  const handleToggleFavorite = (event) => {
+    const isAlreadyFavorite = favorites.some((fav) => fav.id === event.id);
+
+    let updatedFavorites;
+    if (isAlreadyFavorite) {
+      updatedFavorites = favorites.filter((fav) => fav.id !== event.id);
+    } else {
+      updatedFavorites = [...favorites, event];
+    }
+
+    setFavorites(updatedFavorites);
+    setInfoToLocalStorage("favorites", JSON.stringify(updatedFavorites));
+  };
+
+  useEffect(() => {
+    handleGetCategories();
+    handleGetEvents();
+
+    const stored = JSON.parse(getInfoFromLocalStorage("favorites") || "[]");
+    setFavorites(stored);
+  }, []);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search, selectedCategory, priceRange]);
 
   return (
     <div className="bg-gradient-to-b from-blue-50 to-white">
@@ -105,7 +171,7 @@ export const Events: FC = () => {
               <option value="name">Назва</option>
               <option value="price">Ціна</option>
               <option value="rating">Рейтинг</option>
-              <option value="date_time">Дата</option>
+              <option value="dateTime">Дата</option>
             </select>
             <button
               onClick={() =>
@@ -152,7 +218,7 @@ export const Events: FC = () => {
                   Всі категорії
                 </button>
               </li>
-              {eventCategories.map((cat) => (
+              {listCategories.map((cat) => (
                 <li key={cat.id}>
                   <button
                     className={`w-full text-left px-4 py-2 rounded-md transition hover:bg-blue-100 ${
@@ -178,7 +244,7 @@ export const Events: FC = () => {
                 onClick={() => navigate(`/event/${event.id}`)}
               >
                 <img
-                  src={event.photo_url}
+                  src={event.photoUrl}
                   alt={event.name}
                   className="h-48 w-full object-cover"
                 />
@@ -188,7 +254,30 @@ export const Events: FC = () => {
                   </h4>
                   <div className="flex justify-between items-center text-sm text-gray-600">
                     <span>Рейтинг: {event.rating}</span>
-                    <span>₴{event.price}</span>
+                    <span>Ціна: ₴{event.price}</span>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleToggleFavorite(event);
+                      }}
+                      className="text-gray-700 hover:text-red-500 transition"
+                      title="Улюблені"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        viewBox="0 0 24 24"
+                        fill={favorites.includes(event) ? "red" : "none"}
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 20.364l-7.682-7.682a4.5 4.5 0 010-6.364z"
+                        />
+                      </svg>
+                    </button>
                   </div>
                 </div>
               </motion.div>

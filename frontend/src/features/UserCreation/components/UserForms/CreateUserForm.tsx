@@ -72,8 +72,8 @@ export const CreateUserForm: FC<CreateUserFormProps> = ({ switchForm }) => {
         handleSwitchForm();
       }
 
-      if (response?.errors?.length) {
-        toast.error(response?.errors[0].message);
+      if (response?.message) {
+        toast.error("Виникла проблема із створенням користувача");
       }
     } catch (err: any) {
       toast.error(err);

@@ -12,6 +12,8 @@ import { About } from "./features/About/About";
 import { Calendar } from "./features/Calendar/Calendar";
 import { Analytics } from "./features/Analytics/Analytics";
 import { ProtectedRoute } from "./router/ProtectedRoute";
+import { Checkout } from "./features/Payment/Checkout";
+import { Favorites } from "./features/Favorites/Favorites";
 
 function App() {
   return (
@@ -27,7 +29,8 @@ function App() {
             <Route path="/profile/:id" element={<Profile />} />
             <Route path="/about" element={<About />} />
             <Route path="/calendar" element={<Calendar />} />
-            {/* <Route path="/analytics" element={<Analytics />} /> */}
+            <Route path="/checkout/:id" element={<Checkout />} />
+            <Route path="/favorites" element={<Favorites />} />
             <Route
               path="/analytics"
               element={

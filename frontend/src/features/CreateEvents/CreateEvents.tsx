@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { motion } from "framer-motion";
-import { eventCategories } from "../Events/constants/constants";
+import { EventCategoryService } from "./api/createEvent.service";
+import { toast } from "react-toastify";
 
 type EventFormInputs = {
   name: string;
@@ -14,21 +15,47 @@ type EventFormInputs = {
   address?: string;
   participants?: number;
   rating?: number;
-  photo_url?: string;
+  photoUrl?: string;
   categoryId: string;
 };
 
 export const CreateEvents: React.FC = () => {
+  const [listCategories, setListCategories] = useState<any[]>([]);
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<EventFormInputs>();
 
-  const onSubmit: SubmitHandler<EventFormInputs> = (data) => {
-    console.log("Submitted Data:", data);
-    // API call here
+  const onSubmit: SubmitHandler<EventFormInputs> = async (data) => {
+    try {
+      await EventCategoryService.createEvent(data);
+
+      toast.success("Івент створено успішно!");
+      reset();
+    } catch (err: any) {
+      toast.error("Виникла проблема із створенням івенту");
+    }
   };
+
+  const handleGetCategories = async () => {
+    try {
+      const response = await EventCategoryService.getAllCategories();
+
+      if (response?.message) {
+        toast.error("Виникла проблема із отримання івент категорій");
+      }
+
+      setListCategories([...listCategories, ...response]);
+    } catch (err: any) {
+      toast.error(err);
+    }
+  };
+
+  useEffect(() => {
+    handleGetCategories();
+  }, []);
 
   return (
     <motion.div
@@ -48,7 +75,11 @@ export const CreateEvents: React.FC = () => {
                 Назва *
               </label>
               <input
-                {...register("name", { required: "Назва обов'язкова" })}
+                {...register("name", {
+                  required: "Назва обов'язкова",
+                  minLength: { value: 2, message: "Мінімум 2 символи" },
+                  maxLength: { value: 100, message: "Максимум 100 символів" },
+                })}
                 className="w-full px-4 py-2 border border-blue-300 focus:ring-2 focus:ring-blue-400 focus:outline-none rounded-xl shadow-sm"
                 placeholder="Введіть назву івенту"
               />
@@ -149,7 +180,7 @@ export const CreateEvents: React.FC = () => {
                 className="w-full px-4 py-2 border border-blue-400 bg-white rounded-xl text-sm shadow-sm hover:border-blue-500 focus:ring-2 focus:ring-blue-400 focus:outline-none"
               >
                 <option value="">Оберіть категорію</option>
-                {eventCategories.map((cat) => (
+                {listCategories.map((cat) => (
                   <option key={cat.id} value={cat.id} className="text-sm py-1">
                     {cat.name}
                   </option>
@@ -175,8 +206,8 @@ export const CreateEvents: React.FC = () => {
                 <option value="" disabled hidden>
                   Оберіть тип
                 </option>
-                <option value="online">Онлайн</option>
-                <option value="offline">Офлайн</option>
+                <option value="ONLINE">Онлайн</option>
+                <option value="OFFLINE">Офлайн</option>
               </motion.select>
               {errors.type && (
                 <p className="text-sm text-red-500 mt-1">
@@ -191,7 +222,7 @@ export const CreateEvents: React.FC = () => {
               Посилання на фото
             </label>
             <input
-              {...register("photo_url")}
+              {...register("photoUrl")}
               className="w-full px-4 py-2 border border-blue-300 focus:ring-2 focus:ring-blue-400 focus:outline-none rounded-xl shadow-sm"
               placeholder="https://example.com/image.jpg"
             />
