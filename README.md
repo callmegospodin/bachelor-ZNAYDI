@@ -2,65 +2,66 @@
 
 # Znaydi 🎉
 
-**Your universal platform for discovering and organizing events.**
+**Ваша універсальна платформа для пошуку та організації подій.**
 
-Znaydi is a modern web platform that simplifies the way people find, create, and engage with events. Whether it's a local street food festival, a startup hackathon, an online workshop, or a charity concert — Znaydi brings it all together in one place.
+Тема - РОЗРОБКА ВЕБ-ПЛАТФОРМИ «ZNAYDI» ДЛЯ СТВОРЕННЯ ОГОЛОШЕНЬ БУДЬ-ЯКИХ ТИПІВ ПОДІЙ, ШУКАТИ ЗАХОДИ, ЩО ЇХ ЦІКАВЛЯТЬ, ТА ЗНАХОДИТИ ОДНОДУМЦІВ
 
----
+Znaydi- це сучасна веб-платформа, яка спрощує пошук, створення та взаємодію з подіями. Будь то місцевий фестиваль вуличної їжі, стартап-хакатон, онлайн-майстерня чи благодійний концерт — все це зібрано в одному місці.
 
-## 🌟 Features
-
-- 🔍 **Smart Event Search** — filter by interests, tags, dates, popularity, or location (with interactive map support).
-- 📝 **Easy Event Creation** — just fill out a simple form (title, description, location, time, capacity, ticketing).
-- 💬 **Built-in Event Chats** — real-time discussion spaces for each event.
-- ⭐ **Follow Organizers** — get updates, leave feedback, build trust through ratings.
-- 🧾 **Certificates and Acknowledgements** — automatic generation for educational or volunteer events.
-- 🛡 **Anonymous Mode** — keep your identity private if you prefer.
-- 🔗 **External Integration Support** — easily connect Znaydi with CRM systems or partner platforms.
-- 📣 **Push Notifications & Emails** — stay informed about changes and updates.
+Науковий керівник: Головатий Роман Русланович, к.т.н., доцент кафедри інформаційних технологій та систем електронних комунікацій
+Виконав: Іванюк Артур Олегович
 
 ---
 
-## 🛠 Tech Stack
+## 🧪 Початок роботи (Development)
 
-### Backend:
-
-- **Node.js** + **NestJS** — structured, fast, and scalable server.
-- **PostgreSQL** + **TypeORM** — robust data management.
-- **JWT Authentication** — secure access handling.
-- **Full Data Validation** — both client-side and server-side.
-
-### Frontend:
-
-- **ReactJS** + **Redux** — responsive, state-managed interface.
-- **Tailwind CSS** — fast and flexible styling.
-- **React Hook Form** — intuitive form management.
-- **WebSockets** — real-time features like chats.
-- **Firebase** — push notifications and real-time data.
-
----
-
-## 🚀 Future Plans
-
-- 📱 **Mobile App** — for on-the-go access (iOS & Android).
-- 🧾 **NFT Tickets** — unique digital passes for exclusive events.
-- 📊 **Analytics Dashboard** — for organizers to monitor engagement and performance.
-- 🌐 **Social Media Integrations** — deep sharing and promotion features.
-
----
-
-## 💡 Philosophy
-
-Znaydi isn’t just about listing events — it's about **community**.  
-We help people meet, interact, organize, share experiences, and build real-world connections. Whether you're a curious visitor or a professional organizer, Znaydi is your space to make things happen.
-
----
-
-## 🧪 Getting Started (Development)
-
-Clone the repo and install dependencies:
+Склойнуйте проект та читайте README.md файли в папках frontend i backend
 
 ```bash
 git clone https://github.com/your-username/znaydi.git
 cd znaydi
 ```
+
+## 🌟 Особливості
+
+- 🔍 **Розумний пошук подій** — фільтруйте за інтересами, тегами, датами, популярністю чи місцезнаходженням (з підтримкою інтерактивної карти).
+- 📝 **Просте створення події** — просто заповніть просту форму (назва, опис, місце, час, кількість місць, продаж квитків).
+- 💬 **Вбудовані чати подій** — місця для обговорень у реальному часі для кожної події.
+- ⭐ **Слідкуйте за організаторами** — отримуйте оновлення, залишайте відгуки, зміцнюйте довіру за допомогою рейтингів.
+- 🔗 **Підтримка зовнішньої інтеграції** — легко підключайте Знайді до CRM-систем або партнерських платформ.
+
+---
+
+## 🛠 Технічний стек
+
+### Backend:
+
+- **Node.js** + **NestJS** — структурований, швидкий і масштабований сервер.
+- **PostgreSQL** + **TypeORM** — надійне керування даними.
+- **JWT Authentication** — безпечне керування доступом.
+- **Повна перевірка даних** — як на стороні клієнта, так і на стороні сервера.
+ 
+### Frontend:
+
+- **ReactJS** + **Redux** — адаптивний інтерфейс із керуванням станом.
+- **Tailwind CSS** — швидкий і гнучкий стиль.
+- **React Hook Form** — інтуїтивно зрозуміле керування формами.
+- **WebSockets** — функції в реальному часі, такі як чати.
+
+---
+
+## 🚀 Майбутні плани
+
+- 📱 **Мобільний додаток** — для доступу в дорозі (iOS і Android).
+- 🧾 **Квитки NFT** — унікальні цифрові абонементи на ексклюзивні події.
+- 📊 **Інформаційна панель аналітики** — для організаторів, щоб відстежувати залучення та ефективність.
+- 🌐 **Інтеграція соціальних медіа** — функції глибокого обміну та просування.
+
+---
+
+## 💡 Філософія
+
+Znaydi це не просто перелік подій — це **спільнота**.  
+Ми допомагаємо людям зустрічатися, взаємодіяти, організовувати, ділитися досвідом і будувати зв’язки в реальному світі. Незалежно від того, допитливий ви відвідувач чи професійний організатор, «Znaydi» — це ваше місце, де все відбувається.
+
+---
