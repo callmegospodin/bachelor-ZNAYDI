@@ -1,35 +1,32 @@
 # 🗺️ React + Vite + Redux + React Hook Form + Google Maps Starter
 
-This is a modern boilerplate for building interactive web applications using:
 
-- ⚡ **[Vite](https://vitejs.dev/)** — blazing fast frontend tooling
-- ⚛️ **[React](https://react.dev/)** — powerful UI library
-- 🗂 **[Redux Toolkit](https://redux-toolkit.js.org/)** — efficient and scalable state management
-- 📝 **[React Hook Form](https://react-hook-form.com/)** — simple and performant forms
-- 📍 **[Google Maps API](https://developers.google.com/maps)** — maps and location integration
-
----
-
-## 🚀 Features
-
-- Fast development with Vite + HMR
-- Clean component-based structure
-- Efficient state management with Redux Toolkit
-- Type-safe & performant forms with React Hook Form
-- Built-in integration with Google Maps JavaScript API
-- Fully customizable styling (Tailwind, SCSS, or plain CSS support)
-- Environment-based config with `.env`
-
----
-
-## 📦 Project Setup
+## 📦 Налаштування проекту
 
 ```bash
-# Install dependencies
+# Встановити залежності
 $ npm install
-
-# Create and configure environment file
-$ cp .env-example .env
-# Then, open `.env` and set your variables, e.g.:
-# VITE_GOOGLE_MAPS_API_KEY=your_api_key_here
 ```
+
+Це сучасна модель для створення інтерактивних веб-додатків:
+
+- ⚡ **[Vite](https://vitejs.dev/)** — неймовірно швидкий інтерфейсний інструмент
+- ⚛️ **[React](https://react.dev/)** —потужна бібліотека інтерфейсу користувача
+- 🗂 **[Redux Toolkit](https://redux-toolkit.js.org/)** — ефективне та масштабоване управління станом системи
+- 📝 **[React Hook Form](https://react-hook-form.com/)** — прості та продуктивні форми
+- 📍 **[Google Maps API](https://developers.google.com/maps)** — інтеграція карт і розташування
+
+---
+
+## 🚀 Особливості
+
+- Швидка розробка з Vite + HMR
+- Чиста структура на основі компонентів
+— Ефективне управління станом за допомогою Redux Toolkit
+- Безпечні та продуктивні форми з React Hook Form
+- Вбудована інтеграція з Google Maps JavaScript API
+- Повністю настроюваний стиль (підтримка Tailwind, SCSS або простого CSS)
+- Конфігурація на основі середовища з `.env`
+
+---
+
