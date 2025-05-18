@@ -25,20 +25,26 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-## Project setup
+## Налаштування проекту
 
 ```bash
-# install dependencies
+# Встановити всі залежності
 $ npm install
 
-# create .env file and fill property according to example .env-example
+# Створити .env файл і заповнити його властивостями, які в казані в прикладі .env-example
 $ .env
 
-# run migration to create database schema
-$ npm run migration:run:latest
+# Запустіть проект, щоб синхронізувати схему проекту
+$ npm run start:dev
 
-# run seed to create default static data to use application
+# Зупиніть проект, щоб заповнити статичні дані, для коректної роботи проекту
+$ Ctrl + C
+
+# Запустити сіди, щоб заповнити таблиці тестовими та необхідними даними для функціонування проекту
 $ npm run seed:run
+
+# Запустіть проект
+$ npm run start:dev
 ```
 
 ## Compile and run the project
