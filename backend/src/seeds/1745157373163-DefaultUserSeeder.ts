@@ -3,7 +3,7 @@ import { MigrationInterface, QueryRunner } from 'typeorm';
 
 import { seedFollowerList, seedRoles, seedUser } from './constants/defaultSeeder';
 
-export class DefaultSeeder1745157373163 implements MigrationInterface {
+export class DefaultUserSeeder1745157373163 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     const mappedUser = seedUser
       .map((user) => {
@@ -62,18 +62,18 @@ export class DefaultSeeder1745157373163 implements MigrationInterface {
       .join();
 
     await queryRunner.query(`
-        DELETE FROM followers_list 
-        WHERE id IN (${followersListToDelete});
+        DELETE FROM roles 
+        WHERE id IN (${rolesToDelete});
       `);
 
     await queryRunner.query(`
-      DELETE FROM roles 
-      WHERE id IN (${rolesToDelete});
-    `);
+        DELETE FROM users 
+        WHERE id IN (${userToDelete});
+      `);
 
     await queryRunner.query(`
-      DELETE FROM users 
-      WHERE id IN (${userToDelete});
-    `);
+        DELETE FROM followers_list 
+        WHERE id IN (${followersListToDelete});
+      `);
   }
 }

@@ -43,7 +43,7 @@ export class Event {
 
   @Column({
     name: 'price',
-    type: 'money',
+    type: 'float',
     nullable: true,
   })
   price: number;
@@ -95,7 +95,7 @@ export class Event {
     type: 'text',
     nullable: true,
   })
-  photo_url: string;
+  photoUrl: string;
 
   @Column({
     name: 'category_id',
@@ -125,7 +125,7 @@ export class Event {
   })
   deletedAt: string | null;
 
-  @ManyToOne(() => EventCategory, (category) => category.events)
+  @ManyToOne(() => EventCategory, (category) => category.events, { eager: true })
   @JoinColumn({
     name: 'category_id',
   })

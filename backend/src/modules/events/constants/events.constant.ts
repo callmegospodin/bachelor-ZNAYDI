@@ -1,0 +1,4 @@
+export enum EVENT_TYPE_ENUM {
+  ONLINE = 'ONLINE',
+  OFFLINE = 'OFFLINE',
+}

@@ -3,6 +3,7 @@ import { CommonModule } from '@modules/common/common.module';
 import { EventCategoriesModule } from '@modules/eventCategories/eventCategories.module';
 import { EventsModule } from '@modules/events/events.module';
 import { FeedbacksModule } from '@modules/feedbacks/feedbacks.module';
+import { FileManagerModule } from '@modules/fileManager/file-manager.module';
 import { FollowersModule } from '@modules/folowers/followers.module';
 import { NotificationsModule } from '@modules/notification/notifications.module';
 import { RolesModule } from '@modules/roles/roles.module';
@@ -25,6 +26,7 @@ import { AppService } from './app.service';
     EventsModule,
     EventCategoriesModule,
     FeedbacksModule,
+    FileManagerModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -10,6 +10,13 @@ export class Feedback {
   id: string;
 
   @Column({
+    name: 'event_id',
+    type: 'uuid',
+    nullable: false,
+  })
+  eventId: string;
+
+  @Column({
     name: 'text',
     type: 'text',
     nullable: false,

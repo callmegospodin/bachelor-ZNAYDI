@@ -100,7 +100,7 @@ export class User {
     type: 'uuid',
     nullable: false,
   })
-  followersListId;
+  followersListId: string;
 
   @CreateDateColumn({
     name: 'created_at',
@@ -123,11 +123,11 @@ export class User {
   })
   deletedAt: string | null;
 
-  @ManyToOne(() => Role, { eager: true, nullable: true })
+  @ManyToOne(() => Role, { eager: true, onDelete: 'SET NULL' })
   @JoinColumn({ name: 'role_id' })
-  role?: Role | null;
+  role: Role;
 
-  @OneToOne(() => FollowersList, { nullable: true })
+  @OneToOne(() => FollowersList, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'followers_list_id' })
-  followersList?: FollowersList | null;
+  followersList: FollowersList;
 }

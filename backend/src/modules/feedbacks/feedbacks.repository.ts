@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -10,5 +10,25 @@ export class FeedbacksRepository extends Repository<Feedback> {
 
   constructor(@InjectRepository(Feedback) repository: Repository<Feedback>) {
     super(repository.target, repository.manager, repository.queryRunner);
+  }
+
+  async createOne(data): Promise<void> {
+    try {
+      await this.save(data);
+    } catch (error) {
+      this.logger.log('Creating feedback exception', error);
+
+      throw new BadRequestException('Creating feedback exception');
+    }
+  }
+
+  async getAll(eventId: string) {
+    try {
+      return await this.find({ where: { eventId } });
+    } catch (error) {
+      this.logger.log('Get list feedbacks exception', error);
+
+      throw new BadRequestException('Get list feedbacks exception');
+    }
   }
 }
